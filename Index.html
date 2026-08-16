@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>مغامرة سكامبر – مختبر الأفكار</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-1:#171233;
+    --bg-2:#1f1a44;
+    --panel:#241d4f;
+    --panel-2:#2c2460;
+    --ink:#f4f1ff;
+    --ink-dim:#c9c2ec;
+    --s-1:#ffb238;
+    --s-2:#ff7a3d;
+    --s-glow:rgba(255,150,50,.55);
+    --c-1:#7c5cff;
+    --c-2:#33d9e8;
+    --c-glow:rgba(124,92,255,.55);
+    --good:#57e39a;
+    --card-radius:26px;
+    --shadow-soft:0 18px 40px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Cairo','Baloo 2',sans-serif;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,150,50,.16), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(124,92,255,.22), transparent 42%),
+      radial-gradient(circle at 50% 100%, rgba(51,217,232,.12), transparent 55%),
+      linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001s !important; transition-duration:.001s !important;}
+  }
+  button{font-family:inherit; cursor:pointer; border:none;}
+  #app{max-width:640px; margin:0 auto; min-height:100vh; padding:14px 14px 34px; position:relative;}
+
+  /* top bar */
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .brand{display:flex; align-items:center; gap:8px; font-weight:800; font-size:15px; color:var(--ink-dim);}
+  .brand .dot{width:8px;height:8px;border-radius:50%; background:linear-gradient(135deg,var(--s-1),var(--c-1));}
+  .icon-btn{
+    width:40px; height:40px; border-radius:14px;
+    background:var(--panel); color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; box-shadow:var(--shadow-soft);
+    border:1px solid rgba(255,255,255,.06);
+  }
+  .icon-btn:active{transform:scale(.92);}
+
+  .progress-letters{display:flex; gap:10px;}
+  .letter-badge{
+    width:38px;height:38px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900; font-size:17px; color:#867fae;
+    background:var(--panel); border:2px solid rgba(255,255,255,.05);
+    transition:all .4s;
+  }
+  .letter-badge.done.s{color:#2a1300; background:linear-gradient(135deg,var(--s-1),var(--s-2)); box-shadow:0 0 22px var(--s-glow); border-color:transparent;}
+  .letter-badge.done.c{color:#160b3d; background:linear-gradient(135deg,var(--c-1),var(--c-2)); box-shadow:0 0 22px var(--c-glow); border-color:transparent;}
+
+  /* lamba speech */
+  .lamba-row{display:flex; align-items:flex-end; gap:10px; margin:12px 0 16px;}
+  .lamba-avatar{
+    width:56px;height:56px;min-width:56px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #fff6da, #ffd166 55%, #ff9f45 100%);
+    display:flex;align-items:center;justify-content:center; font-size:28px;
+    box-shadow:0 0 24px rgba(255,209,102,.55);
+    animation:floaty 3.2s ease-in-out infinite;
+  }
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-7px) rotate(2deg);}}
+  .bubble{
+    background:var(--panel); border:1px solid rgba(255,255,255,.08);
+    padding:12px 16px; border-radius:20px 20px 20px 4px;
+    font-weight:700; font-size:14.5px; line-height:1.6; flex:1;
+    box-shadow:var(--shadow-soft);
+  }
+
+  /* generic panels */
+  .panel{
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border-radius:var(--card-radius);
+    padding:20px 18px;
+    border:1px solid rgba(255,255,255,.06);
+    box-shadow:var(--shadow-soft);
+    margin-bottom:14px;
+  }
+  h1,h2,h3{margin:0 0 8px; font-family:'Baloo 2','Cairo',sans-serif;}
+  .title-xl{font-size:26px; font-weight:800; margin-bottom:4px;}
+  .subtitle{color:var(--ink-dim); font-weight:600; font-size:14.5px;}
+
+  .btn{
+    padding:13px 20px; border-radius:16px; font-weight:800; font-size:15px;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    transition:transform .15s ease; box-shadow:0 8px 20px rgba(0,0,0,.25);
+  }
+  .btn:active{transform:scale(.95);}
+  .btn-primary{background:linear-gradient(135deg,#ffd166,#ff9f45); color:#2a1300;}
+  .btn-s{background:linear-gradient(135deg,var(--s-1),var(--s-2)); color:#2a1300;}
+  .btn-c{background:linear-gradient(135deg,var(--c-1),var(--c-2)); color:#0e0930;}
+  .btn-ghost{background:rgba(255,255,255,.08); color:var(--ink); border:1px solid rgba(255,255,255,.12); box-shadow:none;}
+  .btn-block{width:100%;}
+  .btn[disabled]{opacity:.35; pointer-events:none;}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap;}
+
+  .center-col{display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px; padding:10px 4px 4px;}
+
+  /* intro screen */
+  .crystals-row{display:flex; gap:22px; justify-content:center; margin:6px 0 8px;}
+  .crystal{
+    width:76px;height:76px; border-radius:22px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-weight:900; font-size:26px; gap:2px;
+    background:rgba(255,255,255,.04); border:2px dashed rgba(255,255,255,.18); color:#867fae;
+    animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .crystal.s{border-color:var(--s-1); color:var(--s-1); box-shadow:0 0 20px var(--s-glow);}
+  .crystal.c{border-color:var(--c-1); color:var(--c-1); box-shadow:0 0 20px var(--c-glow);}
+  .crystal small{font-size:11px; font-weight:700;}
+
+  /* world map */
+  .world-card{
+    display:flex; align-items:center; gap:14px; padding:18px; border-radius:22px; margin-bottom:12px;
+    border:1px solid rgba(255,255,255,.08); position:relative; overflow:hidden;
+  }
+  .world-card.s{background:linear-gradient(120deg, rgba(255,178,56,.22), rgba(255,122,61,.06));}
+  .world-card.c{background:linear-gradient(120deg, rgba(124,92,255,.24), rgba(51,217,232,.07));}
+  .world-card.final{background:linear-gradient(120deg, rgba(255,178,56,.18), rgba(124,92,255,.2));}
+  .world-emoji{font-size:38px; min-width:58px; text-align:center;}
+  .world-info{flex:1;}
+  .world-info h3{font-size:17px; margin-bottom:2px;}
+  .world-info p{margin:0; font-size:13px; color:var(--ink-dim);}
+  .world-status{font-size:12px; font-weight:800; padding:5px 10px; border-radius:10px; background:rgba(0,0,0,.25);}
+  .lock{opacity:.5; filter:grayscale(.6);}
+
+  /* challenge screen */
+  .stage{
+    border-radius:24px; padding:26px 16px; text-align:center; margin-bottom:14px; position:relative; overflow:hidden;
+    border:1px solid rgba(255,255,255,.07);
+  }
+  .stage.s{background:radial-gradient(circle at 50% 0%, rgba(255,178,56,.25), transparent 60%), var(--panel);}
+  .stage.c{background:radial-gradient(circle at 50% 0%, rgba(124,92,255,.28), transparent 60%), var(--panel);}
+  .stage-emoji{font-size:74px; display:inline-block; transition:transform .35s ease;}
+  .stage-emoji.testing{animation:shake .6s ease;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0) rotate(0);}
+    20%{transform:translateX(-6px) rotate(-4deg);}
+    40%{transform:translateX(6px) rotate(4deg);}
+    60%{transform:translateX(-4px) rotate(-2deg);}
+    80%{transform:translateX(4px) rotate(2deg);}
+  }
+  .part-tag{
+    position:absolute; bottom:10px; left:50%; transform:translateX(-50%);
+    background:rgba(0,0,0,.35); padding:4px 12px; border-radius:20px; font-size:12px; font-weight:700;
+  }
+  .q-text{font-weight:800; font-size:17px; margin:6px 0 2px;}
+  .goal-text{color:var(--ink-dim); font-size:13.5px; margin-bottom:2px;}
+
+  .chip-grid{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:14px 0;}
+  .chip{
+    background:rgba(255,255,255,.055); border:2px solid rgba(255,255,255,.09);
+    border-radius:18px; padding:12px 14px; min-width:84px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:700; transition:all .18s ease;
+  }
+  .chip .em{font-size:26px;}
+  .chip:active{transform:scale(.94);}
+  .chip.sel.s{border-color:var(--s-1); background:rgba(255,178,56,.18); box-shadow:0 0 16px var(--s-glow);}
+  .chip.sel.c{border-color:var(--c-1); background:rgba(124,92,255,.2); box-shadow:0 0 16px var(--c-glow);}
+  .chip.slot-a.sel{border-color:var(--c-1);}
+  .chip.slot-b.sel{border-color:var(--c-2);}
+  .chip.disabled{opacity:.3; pointer-events:none;}
+
+  .combo-slots{display:flex; align-items:center; justify-content:center; gap:14px; margin:16px 0;}
+  .combo-slot{
+    width:78px;height:78px; border-radius:20px; border:2px dashed rgba(255,255,255,.25);
+    display:flex; align-items:center; justify-content:center; font-size:30px; background:rgba(255,255,255,.04);
+  }
+  .combo-slot.filled{border-style:solid; border-color:var(--c-1); background:rgba(124,92,255,.15);}
+  .combo-plus{font-size:22px; font-weight:900; color:var(--ink-dim);}
+
+  .feedback{
+    margin-top:6px; padding:14px; border-radius:16px; font-weight:700; font-size:14.5px;
+    background:rgba(87,227,154,.14); border:1px solid rgba(87,227,154,.35); color:#c7ffe4;
+    animation:pop .3s ease;
+  }
+  .feedback.soft{background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.14); color:var(--ink);}
+  @keyframes pop{from{transform:scale(.9); opacity:0;} to{transform:scale(1); opacity:1;}}
+
+  .invention-card{
+    margin-top:10px; padding:18px; border-radius:20px;
+    background:linear-gradient(135deg, rgba(124,92,255,.22), rgba(51,217,232,.14));
+    border:1px solid rgba(255,255,255,.12); animation:pop .35s ease;
+  }
+  .invention-emoji{font-size:46px;}
+  .invention-name{font-weight:900; font-size:18px; margin:6px 0 2px;}
+  .invention-desc{font-size:13px; color:var(--ink-dim);}
+
+  .mystery{font-size:56px; animation:spin 1.4s linear infinite;}
+  @keyframes spin{from{transform:rotate(0);} to{transform:rotate(360deg);}}
+
+  .dots-row{display:flex; gap:6px; justify-content:center; margin-bottom:10px;}
+  .pdot{width:9px;height:9px;border-radius:50%; background:rgba(255,255,255,.15);}
+  .pdot.on.s{background:var(--s-1);}
+  .pdot.on.c{background:var(--c-1);}
+  .pdot.cur{outline:2px solid rgba(255,255,255,.5); outline-offset:2px;}
+
+  /* rewards strip */
+  .rewards-strip{display:flex; gap:12px; overflow-x:auto; padding:10px 2px; margin-bottom:6px;}
+  .reward-pill{
+    display:flex; align-items:center; gap:6px; background:var(--panel); border-radius:14px;
+    padding:8px 12px; font-size:12.5px; font-weight:800; white-space:nowrap; border:1px solid rgba(255,255,255,.07);
+  }
+
+  .badge-toast{
+    position:fixed; top:16px; left:50%; transform:translateX(-50%);
+    background:linear-gradient(135deg,#ffd166,#7c5cff); color:#160b3d;
+    padding:12px 18px; border-radius:16px; font-weight:900; font-size:14px;
+    box-shadow:0 12px 30px rgba(0,0,0,.4); z-index:999; animation:toastIn .4s ease;
+    display:flex; align-items:center; gap:8px;
+  }
+  @keyframes toastIn{from{opacity:0; transform:translate(-50%,-16px);} to{opacity:1; transform:translate(-50%,0);}}
+
+  .final-mods{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:10px 0;}
+  .mod-tag{background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:6px 10px; font-size:12px; font-weight:700;}
+  .mod-tag.s{border-color:var(--s-1); color:var(--s-1);}
+  .mod-tag.c{border-color:var(--c-1); color:var(--c-1);}
+
+  .test-list{display:flex; flex-direction:column; gap:8px; margin-top:10px; text-align:right;}
+  .test-item{display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,.05); padding:9px 12px; border-radius:12px; font-size:13.5px; font-weight:700;}
+
+  .badge-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .badge-card{
+    background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); border-radius:16px;
+    padding:12px; text-align:center; font-size:12px; font-weight:800;
+  }
+  .badge-card .b-em{font-size:26px; display:block; margin-bottom:6px;}
+  .badge-card.locked{opacity:.3;}
+
+  .footer-note{text-align:center; color:var(--ink-dim); font-size:11.5px; margin-top:18px;}
+  .mute-state{font-size:16px;}
+  .segmented{display:flex; background:var(--panel); border-radius:14px; padding:4px; gap:4px;}
+  .seg-btn{flex:1; padding:10px; border-radius:11px; font-weight:800; font-size:13.5px; color:var(--ink-dim); background:transparent;}
+  .seg-btn.active.s{background:linear-gradient(135deg,var(--s-1),var(--s-2)); color:#2a1300;}
+  .seg-btn.active.c{background:linear-gradient(135deg,var(--c-1),var(--c-2)); color:#0e0930;}
+
+  .obj-picker{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:12px 0;}
+  .obj-tile{background:rgba(255,255,255,.05); border:2px solid rgba(255,255,255,.08); border-radius:16px; padding:12px 4px; text-align:center; font-weight:700; font-size:11.5px;}
+  .obj-tile .em{font-size:28px; display:block; margin-bottom:4px;}
+  .obj-tile.sel{border-color:var(--c-1); background:rgba(124,92,255,.18);}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* =========================================================
+   DATA
+========================================================= */
+const OBJ = {
+  bag:{em:'🎒', label:'شنطة ظهر'}, bike:{em:'🚲', label:'دراجة'},
+  umbrella:{em:'☂️', label:'مظلة'}, flashlight:{em:'🔦', label:'كشّاف'},
+  skateboard:{em:'🛹', label:'لوح تزلج'}, fan:{em:'🌀', label:'مروحة'},
+  bottle:{em:'🧴', label:'زجاجة ماء'}, cover:{em:'🧥', label:'غطاء مقاوم للمطر'},
+  hook:{em:'🪝', label:'خطّاف'}, wheels:{em:'🛞', label:'عجلات صغيرة'},
+  hat:{em:'🎩', label:'قبعة'}, shoe:{em:'👟', label:'حذاء'},
+  light:{em:'💡', label:'نور'}, bracelet:{em:'📿', label:'سوار'},
+  turtle:{em:'🐢', label:'سلحفاة'}, octopus:{em:'🐙', label:'أخطبوط'},
+  brush:{em:'🖌️', label:'فرشاة رسم'}, bird:{em:'🐦', label:'طائر'},
+  vehicle:{em:'🚗', label:'عربية'}, camel:{em:'🐫', label:'جمل'},
+  book:{em:'📖', label:'كتاب'}, lamp:{em:'💡', label:'مصباح'},
+  balloon:{em:'🎈', label:'بالون'}, wheel:{em:'⚙️', label:'عجلة'},
+  chair:{em:'🪑', label:'كرسي'}, handle:{em:'✋', label:'مقبض'},
+  box:{em:'📦', label:'صندوق تخزين'}, organizer:{em:'🗂️', label:'منظّم'},
+  waterholder:{em:'🚰', label:'حامل مياه'}, lunchbox:{em:'🍱', label:'صندوق غداء'}
+};
+
+const S_WORLD = {
+  key:'s', name:'وادي البدائل', emoji:'🏜️', theme:'s',
+  challenges:[
+    { id:'handle', title:'المقبض المفقود', baseEmoji:'🎒', partLabel:'مقبض مكسور',
+      question:'نحط إيه بدل المقبض؟',
+      choices:[
+        {id:'rope', label:'حبل', em:'🪢'}, {id:'strap', label:'حزام ناعم', em:'🎗️'},
+        {id:'tube', label:'أنبوب مرن', em:'🧵'}, {id:'spring', label:'سوستة', em:'🌀'},
+        {id:'padded', label:'مقبض مبطّن', em:'🧤'}
+      ],
+      test:'حمل الشنطة وامشِ بيها',
+      resultOK:c=>`رجّالة! بديل الـ"${c.label}" شغّال، والشنطة بقت سهلة الحمل.`
+    },
+    { id:'zipper', title:'شنطة بدون سحّاب', baseEmoji:'🎒', partLabel:'من غير سحّاب',
+      question:'نستبدل السحّاب بإيه؟',
+      choices:[
+        {id:'magnet', label:'مغناطيس', em:'🧲'}, {id:'clips', label:'مشابك', em:'📎'},
+        {id:'elastic', label:'رباط مطاطي', em:'🪢'}, {id:'flap', label:'غطاء مطوي', em:'📁'},
+        {id:'buttons', label:'أزرار', em:'🔘'}
+      ],
+      test:'افتح، اقفل، وهزّ الشنطة',
+      resultOK:c=>`تمام! الشنطة بقت تتقفل بـ"${c.label}" وماوقعش منها حاجة.`
+    },
+    { id:'wheels', title:'عجلات غير عادية', baseEmoji:'🚲', partLabel:'دراجة فوق الرمل',
+      question:'إيه ممكن نحط بدل العجلات؟',
+      goal:'المكان مليان رمل، والعجلات العادية بتغوص.',
+      choices:[
+        {id:'wide', label:'عجلات عريضة', em:'🛞'}, {id:'tracks', label:'جنزير زي الدبابة', em:'🔗'},
+        {id:'soft', label:'عجلات كبيرة وناعمة', em:'⚪'}, {id:'skis', label:'زلاجات', em:'🎿'}
+      ],
+      test:'جرّب الحركة فوق الرمل',
+      resultOK:c=>`${c.id==='skis' ? 'فكرة حلوة! بس الحركة صعبة شوية فوق الرمل. نجرب بديل تاني؟' : `${c.label} خلّت الدراجة تتحرك كويس فوق الرمل!`}`,
+      soft:c=>c.id==='skis'
+    },
+    { id:'umbrella-mat', title:'مظلة بمادة جديدة', baseEmoji:'☂️', partLabel:'مادة قديمة',
+      question:'نغيّر خامة المظلة بإيه؟',
+      choices:[
+        {id:'clear', label:'شفافة مقاومة للمطر', em:'🫧'}, {id:'light', label:'خامة خفيفة مرنة', em:'🪶'},
+        {id:'bubble', label:'شكل فقاعة', em:'🔵'}, {id:'leaf', label:'مستوحاة من الورق', em:'🍃'}
+      ],
+      test:'اختبار المطر ☔',
+      resultOK:c=>`جميل! المظلة بـ"${c.label}" حمتك من المطر كويس.`
+    },
+    { id:'lightsrc', title:'مصدر نور مختلف', baseEmoji:'💡', partLabel:'لمبة مكتب',
+      question:'إيه ممكن نستخدم بدل المصباح؟',
+      choices:[
+        {id:'flower', label:'زهرة مضيئة', em:'🌸'}, {id:'crystal', label:'كريستالة مضيئة', em:'💎'},
+        {id:'panel', label:'لوح ضوئي', em:'🔲'}, {id:'sphere', label:'كرة مضيئة', em:'🔮'}
+      ],
+      test:'شغّل الضوء في الغرفة',
+      resultOK:c=>`الغرفة بقت مضاءة بـ"${c.label}"! إضاءة جديدة كل مرة.`
+    },
+    { id:'method', title:'بدّل الطريقة', baseEmoji:'📦', partLabel:'طرد لازم يعدي الورشة',
+      question:'نبدّل حمل الطرد بإيدك بإيه؟',
+      choices:[
+        {id:'cart', label:'عربة', em:'🛒'}, {id:'track', label:'مسار انزلاق', em:'🛝'},
+        {id:'pulley', label:'بكرة', em:'🪝'}, {id:'conveyor', label:'سير متحرك', em:'🎢'},
+        {id:'robot', label:'روبوت صغير', em:'🤖'}
+      ],
+      test:'شوف الطرد وهو بيعدي',
+      resultOK:c=>`الطرد عدّى الورشة بطريقة "${c.label}" من غير أي تعب!`
+    }
+  ],
+  bonus:{
+    id:'bonus', title:'اكتشف 3 بدائل', baseEmoji:'🥤', partLabel:'كوب عادي',
+    question:'جرّب 3 بدائل مختلفة لنفس الكوب!', need:3,
+    choices:[
+      {id:'paper', label:'كوب ورق', em:'📄'}, {id:'leaf', label:'ورقة شجر ملفوفة', em:'🍃'},
+      {id:'shell', label:'قوقعة', em:'🐚'}, {id:'balloon', label:'بالون مقلوب', em:'🎈'},
+      {id:'bamboo', label:'خيزران', em:'🎋'}, {id:'ice', label:'كوب ثلج', em:'🧊'}
+    ]
+  }
+};
+
+const C_WORLD = {
+  key:'c', name:'مصنع الأفكار', emoji:'🏭', theme:'c',
+  challenges:[
+    { id:'machine', title:'ماكينة الدمج', goal:'اختار أي حاجتين وشوف الاختراع المفاجئ!',
+      pool:['umbrella','flashlight','bag','skateboard','fan','bottle'] },
+    { id:'books-rain', title:'الكتب والمطر', goal:'ادمج حاجتين علشان تحمي الكتب من المطر.',
+      pool:['bag','umbrella','cover','hook','wheels'] },
+    { id:'night', title:'اختراع الليل', goal:'ادمج حاجتين يساعدوك تشوف في الضلمة.',
+      pool:['hat','shoe','bag','light','bracelet'] },
+    { id:'nature', title:'الطبيعة + اختراع', goal:'ادمج حيوان مع اختراع وشوف يطلع إيه!',
+      pool:['turtle','bag','octopus','brush','bird','vehicle','camel','bottle'] },
+    { id:'random', title:'حاجتين مالهمش علاقة', goal:'اختار حاجتين غريبتين مع بعض!',
+      pool:['shoe','book','balloon','wheel','lamp','umbrella','chair'] },
+    { id:'carry-books', title:'ادمج واختبر', goal:'اعمل اختراع يساعد ينقل الكتب بسهولة.',
+      pool:['bag','wheels','handle','skateboard','box'] }
+  ],
+  bonus:{ id:'bonus', title:'3 اختراعات', goal:'ادمج المظلة مع 3 حاجات مختلفة!', base:'umbrella',
+    pool:['flashlight','bag','fan','bottle','light','hat'], need:3 }
+};
+
+const RECIPES = {
+  'umbrella+flashlight':{name:'مظلة الليل المضيئة', em:'🔦☂️', desc:'مظلة بتنوّر طريقك في الضلمة والمطر مع بعض!'},
+  'bag+skateboard':{name:'الشنطة الدوّارة', em:'🎒🛹', desc:'شنطة بعجلات تتحرك لوحدها من غير ما تتعب!'},
+  'bottle+fan':{name:'الزجاجة المبرّدة', em:'🧴🌀', desc:'مية بارضة طول الوقت في أي جو حر!'},
+  'bag+umbrella':{name:'شنطة ضد المطر', em:'🎒☂️', desc:'شنطة فيها غطاء مظلة يطلع لما يبدأ المطر!'},
+  'book+lamp':{name:'الكتاب المضيء', em:'📖💡', desc:'كتاب فيه نور جوّه، تقرا في أي مكان مضلم!'},
+  'shoe+wheel':{name:'الحذاء المتزلج', em:'👟⚙️', desc:'حذاء بعجلة تحت، تمشي وتزلط في نفس الوقت!'},
+  'chair+balloon':{name:'الكرسي الطائر', em:'🪑🎈', desc:'كرسي خفيف بيطير شوية زي في الأحلام!'},
+  'turtle+bag':{name:'شنطة الدرع', em:'🐢🎒', desc:'شنطة قوية زي درع السلحفاة، محمية من أي صدمة!'},
+  'octopus+brush':{name:'الرسّام الثماني', em:'🐙🖌️', desc:'أداة رسم برشات كتير ترسم بيها في نفس الوقت!'},
+  'bird+vehicle':{name:'العربية الطائرة', em:'🐦🚗', desc:'عربية بأجنحة تقدر تطير زي الطيور!'},
+  'camel+bottle':{name:'حامل الماء الصحراوي', em:'🐫🧴', desc:'زجاجة تخزن مية كتير زي سنام الجمل!'},
+  'hat+light':{name:'القبعة المضيئة', em:'🎩💡', desc:'قبعة فيها نور فوقها، تشوف بيها في الضلمة!'},
+  'shoe+light':{name:'الحذاء المضيء', em:'👟💡', desc:'حذاء بينور تحت رجلك وانت ماشي بالليل!'},
+  'bag+light':{name:'الشنطة المضيئة', em:'🎒💡', desc:'شنطة فيها نور صغير يساعدك تشوف جوّاها بالليل!'},
+  'bracelet+light':{name:'السوار المضيء', em:'📿💡', desc:'سوار بينور إيدك في الضلمة، وشكله حلو كمان!'},
+  'bag+cover':{name:'الشنطة المقاومة للمطر', em:'🎒🧥', desc:'شنطة بغطاء خاص يخلي اللي جواها ناشف تمامًا!'},
+  'bag+wheels':{name:'شنطة العربية الصغيرة', em:'🎒🛞', desc:'شنطة بعجلات تسحبها بدل ما تشيلها!'},
+  'wheels+handle':{name:'عربية الكتب', em:'🛞✋', desc:'عربية صغيرة بمقبض تسحب بيها أي حاجة تقيلة!'},
+  'bag+box':{name:'الشنطة المنظّمة', em:'🎒📦', desc:'شنطة فيها صندوق داخلي يرتب الكتب والأدوات!'}
+};
+
+const FALLBACK_NAMES = [
+  n=>`${n[0]}-${n[1]} الخارق`, n=>`أعجوبة ${n[0]} و${n[1]}`,
+  n=>`${n[0]} السحري بروح ${n[1]}`, n=>`اختراع ${n[0]}+${n[1]} الجديد`,
+  n=>`${n[1]} الخارق بلمسة ${n[0]}`
+];
+const FALLBACK_DESC = [
+  'اختراع غريب وجميل محدش فكّر فيه قبل كده!',
+  'مين كان يتخيل إن الاتنين دول هيتلاقوا مع بعض؟!',
+  'خليط عجيب ممكن يطلع مفيد أوي!',
+  'فكرة مجنونة… بس ممكن تنفع بجد!'
+];
+
+const FINAL_S_OPTIONS = [
+  {id:'straps', label:'أحزمة جديدة', em:'🎗️'}, {id:'zip', label:'سحّاب مختلف', em:'🧲'},
+  {id:'handle', label:'مقبض جديد', em:'✋'}, {id:'material', label:'خامة جديدة', em:'🪶'},
+  {id:'pockets', label:'جيوب مختلفة', em:'🗂️'}
+];
+const FINAL_C_OPTIONS = [
+  {id:'umbrella', label:'مظلة', em:'☂️'}, {id:'light', label:'نور', em:'💡'},
+  {id:'wheels', label:'عجلات صغيرة', em:'🛞'}, {id:'organizer', label:'منظّم', em:'🗂️'},
+  {id:'water', label:'حامل مياه', em:'🚰'}, {id:'fan', label:'مروحة', em:'🌀'}
+];
+
+const LAB_OBJECTS = ['bag','bike','umbrella','chair','lamp','shoe','lunchbox'];
+
+const ENCOURAGE_OK = ['فكرة جميلة!','عاش! 🌟','ممكن نطور الفكرة؟','برافو عليك!','فكرة ذكية جدًا!'];
+const ENCOURAGE_TRY = ['جرّب بديلًا آخر.','وإيه كمان؟','فيه فكرة تانية جوّاك أكيد!'];
+
+/* =========================================================
+   STATE
+========================================================= */
+const state = {
+  screen:'intro',
+  worldIndex:0, // index within current world's challenges
+  chIndex:{s:0, c:0},
+  doneChallenges:{s:new Set(), c:new Set()},
+  bonusDone:{s:false, c:false},
+  bonusPicks:{s:new Set(), c:new Set()},
+  worldComplete:{s:false, c:false},
+  transferIndex:0,
+  transferDone:new Set(),
+  scores:{idea:0, alt:0, combine:0, test:0, improve:0},
+  badges:new Set(),
+  muted:false,
+  // per-challenge transient
+  sel:null,
+  slots:[null,null],
+  revealed:null,
+  attempts:0,
+  // final lab
+  finalMods:{s:new Set(), c:new Set()},
+  finalTested:false,
+  // free lab
+  lab:{obj:null, mods:{s:new Set(), c:new Set()}}
+};
+
+const BADGES = [
+  {id:'sub-hunter', em:'🔄', name:'صياد البدائل', check:s=>s.scores.alt>=5 || s.doneChallenges.s.size>=4},
+  {id:'combine-expert', em:'🔗', name:'خبير الدمج', check:s=>s.scores.combine>=5},
+  {id:'tester', em:'🧪', name:'المجرّب', check:s=>s.scores.test>=8},
+  {id:'improver', em:'🌟', name:'المطوّر', check:s=>s.scores.improve>=1},
+  {id:'not-satisfied', em:'💡', name:'ما بيكتفيش بفكرة', check:s=>s.bonusDone.s || s.bonusDone.c},
+  {id:'inventor', em:'🏆', name:'مخترع S+C', check:s=>s.worldComplete.s && s.worldComplete.c}
+];
+
+/* =========================================================
+   SOUND (WebAudio, no assets)
+========================================================= */
+let actx=null;
+function ac(){ if(!actx){ try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} } return actx; }
+function tone(freqs, dur=0.14, type='sine', gap=0.05){
+  if(state.muted) return;
+  const c = ac(); if(!c) return;
+  let t = c.currentTime;
+  freqs.forEach((f,i)=>{
+    const o = c.createOscillator(); const g = c.createGain();
+    o.type=type; o.frequency.value=f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.16, t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t+dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t+dur+0.02);
+    t += dur*0.6+gap;
+  });
+}
+const sound = {
+  swap:()=>tone([420,560],0.12,'triangle'),
+  merge:()=>tone([300,500,700],0.11,'sawtooth'),
+  discover:()=>tone([523,659,784,988],0.13,'sine'),
+  chime:()=>tone([660,880],0.15,'sine'),
+  tap:()=>tone([300],0.06,'square')
+};
+
+/* =========================================================
+   RENDER HELPERS
+========================================================= */
+const el = (html)=>{ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstElementChild; };
+const app = document.getElementById('app');
+function render(){ app.innerHTML = screens[state.screen](); bindEvents(); }
+
+function topbar(showLetters=true){
+  const s = state.worldComplete.s, c = state.worldComplete.c;
+  return `
+  <div class="topbar">
+    <button class="icon-btn" data-nav="map">🏠</button>
+    <div class="progress-letters">
+      <div class="letter-badge ${s?'done s':''}">S</div>
+      <div class="letter-badge ${c?'done c':''}">C</div>
+    </div>
+    <button class="icon-btn" data-action="toggle-mute">${state.muted?'🔇':'🔊'}</button>
+  </div>`;
+}
+
+function lamba(text){
+  return `<div class="lamba-row"><div class="lamba-avatar">🤖</div><div class="bubble">${text}</div></div>`;
+}
+
+function rewardsStrip(){
+  const s = state.scores;
+  return `<div class="rewards-strip">
+    <div class="reward-pill">💡 ${s.idea}</div>
+    <div class="reward-pill">🔄 ${s.alt}</div>
+    <div class="reward-pill">🔗 ${s.combine}</div>
+    <div class="reward-pill">🧪 ${s.test}</div>
+    <div class="reward-pill">🌟 ${s.improve}</div>
+  </div>`;
+}
+
+function pick(rand){ return rand[Math.floor(Math.random()*rand.length)]; }
+
+function checkBadges(){
+  BADGES.forEach(b=>{
+    if(!state.badges.has(b.id) && b.check(state)){
+      state.badges.add(b.id);
+      showBadgeToast(b);
+    }
+  });
+}
+function showBadgeToast(b){
+  sound.discover();
+  const t = el(`<div class="badge-toast">🏅 وسام جديد: ${b.em} ${b.name}</div>`);
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2400);
+}
+
+/* =========================================================
+   SCREENS
+========================================================= */
+const screens = {};
+
+screens.intro = ()=>`
+  <div class="center-col" style="padding-top:34px;">
+    <div style="font-size:52px;">🤖🏙️</div>
+    <div class="title-xl">مغامرة سكامبر<br><span style="font-size:16px; color:var(--ink-dim);">مختبر الأفكار</span></div>
+    <div class="subtitle">بدّل... ادمج... واخترع!</div>
+    <div class="panel" style="width:100%;">
+      ${lamba(`أهلًا يا مستكشف الأفكار! 👋<br>مدينتنا "مدينة الاختراعات" فقدت قوتين مهمين.`)}
+      <div class="crystals-row">
+        <div class="crystal s">🔶<small>S بدّل</small></div>
+        <div class="crystal c">🔷<small>C ادمج</small></div>
+      </div>
+      <p class="subtitle">جاهز نرجعهم للمدينة؟</p>
+    </div>
+    <button class="btn btn-primary btn-block" data-nav="map">يلا نبدأ 🚀</button>
+  </div>`;
+
+screens.map = ()=>{
+  const sDone = state.worldComplete.s, cDone = state.worldComplete.c;
+  const transferUnlocked = sDone && cDone && !state.transferDone.has('all');
+  const finalUnlocked = state.transferDone.has('all');
+  return `
+  ${topbar()}
+  ${lamba(sDone && cDone ? 'برافو! خلّصت العالمين. جاهز للتحدي الكبير؟' : (sDone? 'خلّصت وادي البدائل! دلوقتي جرّب مصنع الأفكار.' : 'اختار عالم نبدأ منه ونستكشفه سوا!'))}
+  <div class="world-card s" data-nav="worldS">
+    <div class="world-emoji">🏜️</div>
+    <div class="world-info"><h3>وادي البدائل — S</h3><p>إيه اللي ممكن نحطه بدل ده؟</p></div>
+    <div class="world-status">${sDone?'✅ خلصان':'ابدأ'}</div>
+  </div>
+  <div class="world-card c" data-nav="worldC">
+    <div class="world-emoji">🏭</div>
+    <div class="world-info"><h3>مصنع الأفكار — C</h3><p>إيه اللي يحصل لو جمعنا حاجتين؟</p></div>
+    <div class="world-status">${cDone?'✅ خلصان':'ابدأ'}</div>
+  </div>
+  <div class="world-card final ${transferUnlocked?'':'lock'}" ${transferUnlocked?'data-nav="transfer"':''}>
+    <div class="world-emoji">🔀</div>
+    <div class="world-info"><h3>S ولّا C؟</h3><p>تحديات تختار فيها الطريقة</p></div>
+    <div class="world-status">${state.transferDone.has('all') ? '✅ خلصان' : (transferUnlocked?'ابدأ':'🔒')}</div>
+  </div>
+  <div class="world-card final ${finalUnlocked?'':'lock'}" ${finalUnlocked?'data-nav="final"':''}>
+    <div class="world-emoji">🧪</div>
+    <div class="world-info"><h3>مختبر المخترع</h3><p>صمم شنطة المستقبل بـ S + C</p></div>
+    <div class="world-status">${finalUnlocked?'ابدأ':'🔒'}</div>
+  </div>
+  ${finalUnlocked?`<div class="world-card" data-nav="lab" style="background:linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,.02));">
+    <div class="world-emoji">🎨</div>
+    <div class="world-info"><h3>معمل الأفكار الحر</h3><p>اخترع أي حاجة تحبها بحرية</p></div>
+    <div class="world-status">افتح</div>
+  </div>`:''}
+  ${rewardsStrip()}
+  <button class="btn btn-ghost btn-block" data-nav="badges">🏅 الأوسمة (${state.badges.size}/${BADGES.length})</button>
+  `;
+};
+
+/* ---------- SUBSTITUTE CHALLENGE SCREEN ---------- */
+screens.worldS = ()=> renderSubstitute('s');
+screens.worldC = ()=> renderCombine('c');
+
+function renderSubstitute(worldKey){
+  const world = S_WORLD;
+  const isBonus = state.chIndex.s >= world.challenges.length;
+  const ch = isBonus ? world.bonus : world.challenges[state.chIndex.s];
+  const total = world.challenges.length + 1;
+  const idx = isBonus ? world.challenges.length : state.chIndex.s;
+
+  const dots = Array.from({length: total}).map((_,i)=>{
+    const done = i < world.challenges.length ? state.doneChallenges.s.has(world.challenges[i].id) : state.bonusDone.s;
+    return `<div class="pdot ${done?'on s':''} ${i===idx?'cur':''}"></div>`;
+  }).join('');
+
+  const selectedChoice = ch.choices.find(c=>c.id===state.sel);
+  const bonusPicked = isBonus ? Array.from(state.bonusPicks.s) : [];
+
+  let feedbackHtml = '';
+  if(state.revealed){
+    const soft = ch.soft && ch.soft(selectedChoice);
+    const msg = isBonus
+      ? `تمام! جربت "${selectedChoice.label}" كبديل. (${bonusPicked.length}/${ch.need})`
+      : ch.resultOK(selectedChoice);
+    feedbackHtml = `<div class="feedback ${soft?'soft':''}">${msg}</div>`;
+  }
+
+  const canNext = isBonus ? state.bonusDone.s : state.doneChallenges.s.has(ch.id);
+  const isLast = idx === total-1;
+
+  return `
+  ${topbar()}
+  <div class="dots-row">${dots}</div>
+  ${lamba(isBonus ? 'تحدي إضافي! جرّب 3 بدائل مختلفة لنفس الكوب 🥤' : pick(['إيه اللي ممكن نحطه بدل ده؟','جرّب أفكارك الحرة!','كل بديل ليه ميزة مختلفة!']))}
+  <div class="panel stage s">
+    <div class="stage-emoji ${state.testAnim?'testing':''}">${ch.baseEmoji}</div>
+    ${ch.partLabel?`<div class="part-tag">${ch.partLabel}</div>`:''}
+  </div>
+  <div class="panel">
+    <div class="q-text">${ch.question}</div>
+    ${ch.goal?`<div class="goal-text">${ch.goal}</div>`:''}
+    <div class="chip-grid">
+      ${ch.choices.map(c=>`
+        <button class="chip ${state.sel===c.id?'sel s':''} ${isBonus && state.bonusPicks.s.has(c.id) ? 'disabled':''}" data-choice="${c.id}">
+          <span class="em">${c.em}</span><span>${c.label}</span>
+        </button>`).join('')}
+    </div>
+    ${feedbackHtml}
+    <div class="btn-row" style="margin-top:10px;">
+      ${!state.revealed ? `<button class="btn btn-s btn-block" data-action="test-s" ${!state.sel?'disabled':''}>🧪 جرّب</button>` : ''}
+      ${state.revealed && !(isBonus && bonusPicked.length>=ch.need) ? `<button class="btn btn-ghost" data-action="retry-s">🔄 بديل تاني</button>`:''}
+      ${state.revealed && canNext ? `<button class="btn btn-primary" data-action="next-s">${isLast?'أنهِ العالم ✨':'التالي ⬅️'}</button>`:''}
+    </div>
+  </div>
+  ${rewardsStrip()}
+  `;
+}
+
+/* ---------- COMBINE CHALLENGE SCREEN ---------- */
+function renderCombine(worldKey){
+  const world = C_WORLD;
+  const isBonus = state.chIndex.c >= world.challenges.length;
+  const ch = isBonus ? world.bonus : world.challenges[state.chIndex.c];
+  const total = world.challenges.length + 1;
+  const idx = isBonus ? world.challenges.length : state.chIndex.c;
+
+  const dots = Array.from({length: total}).map((_,i)=>{
+    const done = i < world.challenges.length ? state.doneChallenges.c.has(world.challenges[i].id) : state.bonusDone.c;
+    return `<div class="pdot ${done?'on c':''} ${i===idx?'cur':''}"></div>`;
+  }).join('');
+
+  const poolIds = ch.pool;
+  const bonusCount = isBonus ? state.bonusPicks.c.size : 0;
+
+  const slotAId = state.slots[0], slotBId = isBonus ? ch.base : state.slots[1];
+  let resultHtml = '';
+  if(state.revealed){
+    const r = state.revealed;
+    resultHtml = `<div class="invention-card">
+      <div class="invention-emoji">${r.em}</div>
+      <div class="invention-name">${r.name}</div>
+      <div class="invention-desc">${r.desc}</div>
+    </div>`;
+  } else if(slotAId && (isBonus || slotBId)){
+    resultHtml = `<div class="mystery">❓</div>`;
+  }
+
+  const canCombine = isBonus ? !!slotAId : (!!slotAId && !!slotBId);
+  const canNext = isBonus ? state.bonusDone.c : state.doneChallenges.c.has(ch.id);
+  const isLast = idx === total-1;
+
+  return `
+  ${topbar()}
+  <div class="dots-row">${dots}</div>
+  ${lamba(isBonus ? `ادمج المظلة ☂️ مع 3 حاجات مختلفة! (${bonusCount}/${ch.need})` : pick(['إيه اللي يحصل لو جمعنا حاجتين؟','فكّر برا الصندوق!','مفيش دمج غلط، كله تجربة!']))}
+  <div class="panel">
+    <div class="q-text">${ch.title}</div>
+    <div class="goal-text">${ch.goal}</div>
+
+    <div class="combo-slots">
+      ${isBonus ? `
+        <div class="combo-slot filled">${OBJ[ch.base].em}</div>
+        <div class="combo-plus">+</div>
+        <div class="combo-slot ${slotAId?'filled':''}">${slotAId?OBJ[slotAId].em:'؟'}</div>
+      ` : `
+        <div class="combo-slot ${slotAId?'filled':''}">${slotAId?OBJ[slotAId].em:'؟'}</div>
+        <div class="combo-plus">+</div>
+        <div class="combo-slot ${slotBId?'filled':''}">${slotBId?OBJ[slotBId].em:'؟'}</div>
+      `}
+    </div>
+
+    <div class="chip-grid">
+      ${poolIds.map(id=>{
+        const o = OBJ[id];
+        const selected = state.slots.includes(id);
+        return `<button class="chip ${selected?'sel c':''}" data-obj="${id}">
+          <span class="em">${o.em}</span><span>${o.label}</span>
+        </button>`;
+      }).join('')}
+    </div>
+
+    ${resultHtml}
+
+    <div class="btn-row" style="margin-top:10px;">
+      ${!state.revealed ? `<button class="btn btn-c btn-block" data-action="combine" ${canCombine?'':'disabled'}>🔗 ادمج!</button>` : ''}
+      ${state.revealed ? `<button class="btn btn-ghost" data-action="retry-c">🔄 دمج تاني</button>`:''}
+      ${state.revealed && canNext ? `<button class="btn btn-primary" data-action="next-c">${isLast?'أنهِ العالم ✨':'التالي ⬅️'}</button>`:''}
+    </div>
+  </div>
+  ${rewardsStrip()}
+  `;
+}
+
+/* ---------- TRANSFER (choose S or C) ---------- */
+const TRANSFER_CHALLENGES = [
+  { id:'bike-light', title:'نور الدراجة اتعطّل', emoji:'🚲',
+    s:{ prompt:'بدّل اللمبة المكسورة بلمبة LED صغيرة.', result:'شغّال! اللمبة الجديدة بتنور الطريق قدامك.'},
+    c:{ prompt:'ادمج الدراجة مع كشّاف محمول بدل اللمبة.', result:'جامد! الكشّاف اتركب على الدراجة ودلوقتي بتشوف كويس بالليل.'} },
+  { id:'chair-leg', title:'كرسي رجله اتكسرت', emoji:'🪑',
+    s:{ prompt:'بدّل الرجل المكسورة برجل خشب جديدة.', result:'تمام! الكرسي بقى ثابت ومريح تاني.'},
+    c:{ prompt:'ادمج الكرسي مع عجلات صغيرة بدل الرجل.', result:'فكرة حلوة! الكرسي بقى يتحرك بسهولة كمان.'} },
+];
+
+screens.transfer = ()=>{
+  const idx = state.transferIndex;
+  if(idx >= TRANSFER_CHALLENGES.length){
+    state.transferDone.add('all');
+    checkBadges();
+    return `${topbar()}
+    <div class="panel center-col">
+      ${lamba('نفس المشكلة ممكن نفكر فيها بأكتر من طريقة! S أو C، الاتنين بيوصلوك لحل. 🌟')}
+      <div style="font-size:48px;">🎉</div>
+      <h2>خلصت تحديات S ولّا C!</h2>
+      <button class="btn btn-primary btn-block" data-nav="map">لمختبر المخترع 🧪</button>
+    </div>`;
+  }
+  const ch = TRANSFER_CHALLENGES[idx];
+  const chosen = state.sel; // 's' or 'c' or null
+  return `
+  ${topbar()}
+  ${lamba('نفس المشكلة، طريقتين لحلها. اختار اللي حابب تجرب!')}
+  <div class="panel center-col">
+    <div style="font-size:52px;">${ch.emoji}</div>
+    <h3>${ch.title}</h3>
+    <div class="btn-row btn-block" style="width:100%;">
+      <button class="btn btn-s" style="flex:1;" data-action="transfer-pick" data-pick="s">S — بدّل</button>
+      <button class="btn btn-c" style="flex:1;" data-action="transfer-pick" data-pick="c">C — ادمج</button>
+    </div>
+    ${chosen ? `
+      <div class="feedback">${ch[chosen].prompt}<br><br>${ch[chosen].result}</div>
+      <button class="btn btn-primary btn-block" data-action="transfer-next">التالي ⬅️</button>
+    ` : ''}
+  </div>`;
+};
+
+/* ---------- FINAL LAB ---------- */
+screens.final = ()=>{
+  const sSel = Array.from(state.finalMods.s);
+  const cSel = Array.from(state.finalMods.c);
+  const canTest = sSel.length>=1 && cSel.length>=1;
+  const mode = state.sel || 's';
+
+  return `
+  ${topbar()}
+  ${lamba('دلوقتي إنت المخترع! صمّم "شنطة المستقبل" باستخدام S و C مع بعض 🎒✨')}
+  <div class="panel">
+    <div class="q-text">صمم شنطة المستقبل</div>
+    <div style="font-size:64px; text-align:center; margin:8px 0;">🎒</div>
+    <div class="final-mods">
+      ${sSel.map(id=>`<span class="mod-tag s">${FINAL_S_OPTIONS.find(o=>o.id===id).em} ${FINAL_S_OPTIONS.find(o=>o.id===id).label}</span>`).join('')}
+      ${cSel.map(id=>`<span class="mod-tag c">${FINAL_C_OPTIONS.find(o=>o.id===id).em} ${FINAL_C_OPTIONS.find(o=>o.id===id).label}</span>`).join('')}
+    </div>
+
+    <div class="segmented" style="margin:12px 0;">
+      <button class="seg-btn ${mode==='s'?'active s':''}" data-action="final-mode" data-mode="s">S — بدّل</button>
+      <button class="seg-btn ${mode==='c'?'active c':''}" data-action="final-mode" data-mode="c">C — ادمج</button>
+    </div>
+
+    <div class="chip-grid">
+      ${(mode==='s'?FINAL_S_OPTIONS:FINAL_C_OPTIONS).map(o=>{
+        const setRef = mode==='s' ? state.finalMods.s : state.finalMods.c;
+        return `<button class="chip ${setRef.has(o.id)?'sel '+mode:''}" data-action="final-toggle" data-mode="${mode}" data-id="${o.id}">
+          <span class="em">${o.em}</span><span>${o.label}</span>
+        </button>`;
+      }).join('')}
+    </div>
+
+    <p class="goal-text">استخدم بديل واحد على الأقل (S) ودمج واحد على الأقل (C).</p>
+
+    <button class="btn btn-primary btn-block" data-action="final-test" ${canTest?'':'disabled'}>🧪 جرّب الاختراع</button>
+
+    ${state.finalTested ? renderFinalTest(sSel, cSel) : ''}
+  </div>
+  ${rewardsStrip()}
+  `;
+};
+
+function renderFinalTest(sSel, cSel){
+  const features = [
+    {key:'carry', label:'الحمل 🎒', ok: sSel.includes('straps')||sSel.includes('handle')||cSel.includes('wheels')},
+    {key:'rain', label:'المطر ☔', ok: cSel.includes('umbrella')},
+    {key:'move', label:'الحركة 🏃', ok: cSel.includes('wheels')},
+    {key:'open', label:'الفتح 🔓', ok: sSel.includes('zip')||sSel.includes('pockets')},
+    {key:'night', label:'الليل 🌙', ok: cSel.includes('light')},
+  ];
+  const anyIssue = features.some(f=>!f.ok);
+  return `
+  <div class="test-list">
+    ${features.map(f=>`<div class="test-item"><span>${f.label}</span><span>${f.ok?'✅':'➖'}</span></div>`).join('')}
+  </div>
+  <div class="feedback ${anyIssue?'soft':''}" style="margin-top:10px;">
+    ${anyIssue? 'الفكرة شغالة، بس ممكن نطورها! جرّب تضيف بدائل أو دمج تاني.' : 'شنطة المستقبل جاهزة تمامًا! اختراع رائع 🎉'}
+  </div>
+  <div class="btn-row" style="margin-top:10px;">
+    <button class="btn btn-ghost" data-action="final-improve">🌟 طوّرها كمان</button>
+    <button class="btn btn-primary" data-nav="badges">🏆 شوف الأوسمة</button>
+  </div>`;
+}
+
+/* ---------- FREE LAB ---------- */
+screens.lab = ()=>{
+  if(!state.lab.obj){
+    return `
+    ${topbar()}
+    ${lamba('اختار حاجة تحب تخترع منها، وبعدين هتقدر تبدّل وتدمج زي ما تحب!')}
+    <div class="panel">
+      <div class="q-text">معمل الأفكار الحر</div>
+      <div class="obj-picker">
+        ${LAB_OBJECTS.map(id=>`<button class="obj-tile" data-action="lab-pick" data-id="${id}"><span class="em">${OBJ[id].em}</span>${OBJ[id].label}</button>`).join('')}
+      </div>
+    </div>`;
+  }
+  const mode = state.sel || 's';
+  const baseObj = OBJ[state.lab.obj];
+  const sSel = Array.from(state.lab.mods.s);
+  const cSel = Array.from(state.lab.mods.c);
+  const sOptions = [{id:'part1',label:'جزء 1',em:'🔧'},{id:'part2',label:'جزء 2',em:'🧵'},{id:'material',label:'خامة',em:'🪶'},{id:'shape',label:'شكل',em:'🔷'}];
+  const cOptions = LAB_OBJECTS.filter(id=>id!==state.lab.obj).map(id=>({id,label:OBJ[id].label,em:OBJ[id].em}))
+    .concat([{id:'nature',label:'عنصر طبيعي',em:'🌿'}]);
+
+  return `
+  ${topbar()}
+  ${lamba('اخترع بحرية تامة! جرّب أي بديل أو دمج يعجبك.')}
+  <div class="panel">
+    <div style="font-size:60px; text-align:center;">${baseObj.em}</div>
+    <div class="q-text" style="text-align:center;">${baseObj.label}</div>
+    <div class="final-mods">
+      ${sSel.map(id=>`<span class="mod-tag s">${sOptions.find(o=>o.id===id).em} ${sOptions.find(o=>o.id===id).label}</span>`).join('')}
+      ${cSel.map(id=>`<span class="mod-tag c">${cOptions.find(o=>o.id===id).em} ${cOptions.find(o=>o.id===id).label}</span>`).join('')}
+    </div>
+    <div class="segmented" style="margin:12px 0;">
+      <button class="seg-btn ${mode==='s'?'active s':''}" data-action="lab-mode" data-mode="s">S — بدّل</button>
+      <button class="seg-btn ${mode==='c'?'active c':''}" data-action="lab-mode" data-mode="c">C — ادمج</button>
+    </div>
+    <div class="chip-grid">
+      ${(mode==='s'?sOptions:cOptions).map(o=>{
+        const setRef = mode==='s'?state.lab.mods.s:state.lab.mods.c;
+        return `<button class="chip ${setRef.has(o.id)?'sel '+mode:''}" data-action="lab-toggle" data-mode="${mode}" data-id="${o.id}">
+          <span class="em">${o.em}</span><span>${o.label}</span>
+        </button>`;
+      }).join('')}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-c btn-block" data-action="lab-test">🧪 جرّب الاختراع</button>
+    </div>
+    ${state.labResult ? `<div class="invention-card"><div class="invention-emoji">${baseObj.em}${sSel.length||cSel.length?'✨':''}</div><div class="invention-name">${state.labResult}</div><div class="invention-desc">اختراعك الخاص جاهز!</div></div>`:''}
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-ghost" data-action="lab-reset">🔄 Reset</button>
+      <button class="btn btn-ghost" data-action="lab-new">🎲 اختراع جديد</button>
+    </div>
+  </div>
+  `;
+};
+
+/* ---------- BADGES ---------- */
+screens.badges = ()=>`
+  ${topbar()}
+  ${lamba('شوف كل الأوسمة اللي جمعتها في رحلتك!')}
+  <div class="panel">
+    <div class="q-text">أوسمتي 🏅</div>
+    <div class="badge-grid">
+      ${BADGES.map(b=>`
+        <div class="badge-card ${state.badges.has(b.id)?'':'locked'}">
+          <span class="b-em">${b.em}</span>${b.name}
+        </div>`).join('')}
+    </div>
+  </div>
+  ${rewardsStrip()}
+  <button class="btn btn-primary btn-block" data-nav="map">رجوع للخريطة</button>
+  <div class="footer-note">مافيش نقط سالبة… كل تجربة بتقرّبك لاختراع جديد 💡</div>
+`;
+
+/* =========================================================
+   EVENTS
+========================================================= */
+function bindEvents(){
+  app.querySelectorAll('[data-nav]').forEach(b=>b.addEventListener('click', ()=>{
+    sound.tap();
+    resetTransient();
+    state.screen = b.getAttribute('data-nav');
+    render();
+  }));
+  app.querySelectorAll('[data-action="toggle-mute"]').forEach(b=>b.addEventListener('click', ()=>{
+    state.muted = !state.muted; render();
+  }));
+
+  // substitute choice
+  app.querySelectorAll('[data-choice]').forEach(b=>b.addEventListener('click', ()=>{
+    if(b.classList.contains('disabled')) return;
+    sound.tap();
+    state.sel = b.getAttribute('data-choice');
+    state.revealed = null;
+    render();
+  }));
+  const testBtn = app.querySelector('[data-action="test-s"]');
+  if(testBtn) testBtn.addEventListener('click', ()=>{
+    const world = S_WORLD;
+    const isBonus = state.chIndex.s >= world.challenges.length;
+    const ch = isBonus ? world.bonus : world.challenges[state.chIndex.s];
+    sound.swap();
+    state.scores.idea++; state.scores.test++;
+    if(!isBonus) state.doneChallenges.s.add(ch.id);
+    else { state.bonusPicks.s.add(state.sel); if(state.bonusPicks.s.size>=ch.need) state.bonusDone.s = true; state.scores.alt++; }
+    if(state.doneChallenges.s.size>0) state.scores.alt++;
+    state.revealed = true;
+    checkBadges();
+    render();
+  });
+  const retryS = app.querySelector('[data-action="retry-s"]');
+  if(retryS) retryS.addEventListener('click', ()=>{ state.sel=null; state.revealed=null; render(); });
+  const nextS = app.querySelector('[data-action="next-s"]');
+  if(nextS) nextS.addEventListener('click', ()=>{
+    const world = S_WORLD;
+    const isBonus = state.chIndex.s >= world.challenges.length;
+    state.sel=null; state.revealed=null;
+    if(isBonus){ state.worldComplete.s = true; checkBadges(); state.screen='map'; }
+    else if(state.chIndex.s+1 <= world.challenges.length){ state.chIndex.s++; }
+    render();
+  });
+
+  // combine
+  app.querySelectorAll('[data-obj]').forEach(b=>b.addEventListener('click', ()=>{
+    sound.tap();
+    const id = b.getAttribute('data-obj');
+    const world = C_WORLD;
+    const isBonus = state.chIndex.c >= world.challenges.length;
+    if(isBonus){
+      state.slots = [id, null];
+    } else {
+      if(state.slots.includes(id)){ state.slots = state.slots.map(s=>s===id?null:s); }
+      else if(!state.slots[0]) state.slots[0]=id;
+      else if(!state.slots[1]) state.slots[1]=id;
+      else state.slots = [id, null];
+    }
+    state.revealed = null;
+    render();
+  }));
+  const combineBtn = app.querySelector('[data-action="combine"]');
+  if(combineBtn) combineBtn.addEventListener('click', ()=>{
+    const world = C_WORLD;
+    const isBonus = state.chIndex.c >= world.challenges.length;
+    const ch = isBonus ? world.bonus : world.challenges[state.chIndex.c];
+    sound.merge();
+    const aId = state.slots[0], bId = isBonus ? ch.base : state.slots[1];
+    const key1 = aId+'+'+bId, key2 = bId+'+'+aId;
+    let recipe = RECIPES[key1] || RECIPES[key2];
+    if(!recipe){
+      const names=[OBJ[aId].label, OBJ[bId].label];
+      recipe = { name: pick(FALLBACK_NAMES)(names), em: OBJ[aId].em+OBJ[bId].em, desc: pick(FALLBACK_DESC) };
+    }
+    state.revealed = recipe;
+    state.scores.idea++; state.scores.combine++;
+    if(!isBonus) state.doneChallenges.c.add(ch.id);
+    else { state.bonusPicks.c.add(aId); if(state.bonusPicks.c.size>=ch.need) state.bonusDone.c = true; }
+    checkBadges();
+    render();
+  });
+  const retryC = app.querySelector('[data-action="retry-c"]');
+  if(retryC) retryC.addEventListener('click', ()=>{ state.slots=[null,null]; state.revealed=null; render(); });
+  const nextC = app.querySelector('[data-action="next-c"]');
+  if(nextC) nextC.addEventListener('click', ()=>{
+    const world = C_WORLD;
+    const isBonus = state.chIndex.c >= world.challenges.length;
+    state.slots=[null,null]; state.revealed=null;
+    if(isBonus){ state.worldComplete.c = true; checkBadges(); state.screen='map'; }
+    else if(state.chIndex.c+1 <= world.challenges.length){ state.chIndex.c++; }
+    render();
+  });
+
+  // transfer
+  app.querySelectorAll('[data-action="transfer-pick"]').forEach(b=>b.addEventListener('click', ()=>{
+    sound.chime();
+    state.sel = b.getAttribute('data-pick');
+    state.scores.idea++;
+    render();
+  }));
+  const transferNext = app.querySelector('[data-action="transfer-next"]');
+  if(transferNext) transferNext.addEventListener('click', ()=>{
+    state.transferIndex++; state.sel=null; render();
+  });
+
+  // final lab
+  app.querySelectorAll('[data-action="final-mode"]').forEach(b=>b.addEventListener('click', ()=>{
+    state.sel = b.getAttribute('data-mode'); render();
+  }));
+  app.querySelectorAll('[data-action="final-toggle"]').forEach(b=>b.addEventListener('click', ()=>{
+    sound.tap();
+    const mode = b.getAttribute('data-mode'), id = b.getAttribute('data-id');
+    const set = mode==='s' ? state.finalMods.s : state.finalMods.c;
+    if(set.has(id)) set.delete(id); else { set.add(id); state.scores.idea++; if(mode==='s') state.scores.alt++; else state.scores.combine++; }
+    state.finalTested = false;
+    render();
+  }));
+  const finalTest = app.querySelector('[data-action="final-test"]');
+  if(finalTest) finalTest.addEventListener('click', ()=>{
+    sound.discover();
+    state.finalTested = true; state.scores.test++;
+    checkBadges();
+    render();
+  });
+  const finalImprove = app.querySelector('[data-action="final-improve"]');
+  if(finalImprove) finalImprove.addEventListener('click', ()=>{
+    state.scores.improve++; state.finalTested=false; checkBadges(); render();
+  });
+
+  // free lab
+  const labPick = app.querySelectorAll('[data-action="lab-pick"]');
+  labPick.forEach(b=>b.addEventListener('click', ()=>{
+    sound.tap();
+    state.lab.obj = b.getAttribute('data-id');
+    render();
+  }));
+  const labMode = app.querySelectorAll('[data-action="lab-mode"]');
+  labMode.forEach(b=>b.addEventListener('click', ()=>{ state.sel = b.getAttribute('data-mode'); render(); }));
+  const labToggle = app.querySelectorAll('[data-action="lab-toggle"]');
+  labToggle.forEach(b=>b.addEventListener('click', ()=>{
+    sound.tap();
+    const mode = b.getAttribute('data-mode'), id = b.getAttribute('data-id');
+    const set = mode==='s' ? state.lab.mods.s : state.lab.mods.c;
+    if(set.has(id)) set.delete(id); else { set.add(id); state.scores.idea++; if(mode==='s') state.scores.alt++; else state.scores.combine++; }
+    state.labResult = null;
+    render();
+  }));
+  const labTest = app.querySelector('[data-action="lab-test"]');
+  if(labTest) labTest.addEventListener('click', ()=>{
+    sound.discover(); state.scores.test++;
+    state.labResult = `اختراع ${OBJ[state.lab.obj].label} الخاص بيك! 🎉`;
+    checkBadges();
+    render();
+  });
+  const labReset = app.querySelector('[data-action="lab-reset"]');
+  if(labReset) labReset.addEventListener('click', ()=>{
+    state.lab.mods = {s:new Set(), c:new Set()}; state.labResult=null; render();
+  });
+  const labNew = app.querySelector('[data-action="lab-new"]');
+  if(labNew) labNew.addEventListener('click', ()=>{
+    state.lab = {obj:null, mods:{s:new Set(), c:new Set()}}; state.labResult=null; render();
+  });
+}
+
+function resetTransient(){
+  state.sel=null; state.slots=[null,null]; state.revealed=null; state.testAnim=false;
+}
+
+/* boot */
+render();
+</script>
+</body>
+</html>
